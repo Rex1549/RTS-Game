@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsh0v2nxk318h"]
+
+[ext_resource type="Script" path="res://camera_controller.gd" id="1_56qkh"]
+
+[node name="Camera" type="Node3D"]
+
+[node name="Yaw" type="Node3D" parent="."]
+
+[node name="Pitch" type="Node3D" parent="Yaw"]
+
+[node name="MainCamera" type="Camera3D" parent="Yaw/Pitch"]
+script = ExtResource("1_56qkh")
+PAN_SPEED = 2.0
+ROT_SPEED = 10.0
+ZOOM_SPEED = 10.0

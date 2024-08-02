@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://codd0sfjcvg05"]
+
+[ext_resource type="Script" path="res://scenes/player_interface.gd" id="1_x6a1n"]
+[ext_resource type="Texture2D" uid="uid://dkovg20j5wqer" path="res://assets/ui/selection_rect.png" id="2_72hst"]
+[ext_resource type="PackedScene" uid="uid://bsh0v2nxk318h" path="res://scenes/camera.tscn" id="3_l5ywc"]
+
+[node name="PlayerInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_x6a1n")
+metadata/_edit_lock_ = true
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 21.0
+offset_right = 98.0
+offset_bottom = 52.0
+text = "Add Unit"
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 0
+offset_right = 83.0625
+offset_bottom = 31.0
+
+[node name="SelectionRect" type="NinePatchRect" parent="."]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 71.0
+offset_right = 296.0
+offset_bottom = 234.0
+texture = ExtResource("2_72hst")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="Camera" parent="." instance=ExtResource("3_l5ywc")]
+
+[connection signal="pressed" from="Button" to="." method="spawn_unit"]
