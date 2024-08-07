@@ -55,11 +55,7 @@ collision_mask = 3
 
 [node name="Deployement" type="Node" parent="map_test"]
 
-[node name="Ground" type="Node" parent="map_test/Deployement"]
-
-[node name="DM1" type="Marker3D" parent="map_test/Deployement/Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5919, 5.40747, 96.4159)
-
-[connection signal="spawn_unit" from="PlayerInterface" to="." method="_on_player_interface_spawn_unit"]
+[node name="DeploymentMarker1" type="Marker3D" parent="map_test/Deployement"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5751, 5.22779, 95.5147)
 
 [editable path="map_test"]

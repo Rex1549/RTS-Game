@@ -12,10 +12,10 @@ metadata/_edit_lock_ = true
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 22.0
-offset_top = 21.0
-offset_right = 98.0
-offset_bottom = 52.0
+offset_left = -1.0
+offset_top = 31.0
+offset_right = 75.0
+offset_bottom = 62.0
 text = "Add Unit"
 
 [node name="SpinBox" type="SpinBox" parent="."]
@@ -37,4 +37,4 @@ patch_margin_bottom = 3
 
 [node name="Camera" parent="." instance=ExtResource("3_l5ywc")]
 
-[connection signal="pressed" from="Button" to="." method="spawn_unit"]
+[connection signal="pressed" from="Button" to="." method="debug_spawn_unit"]
