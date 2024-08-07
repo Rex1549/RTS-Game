@@ -5,12 +5,22 @@ signal spawn_unit(unit:UnitSpawn)
 # Nodes
 @onready var ui_selection_patch :NinePatchRect = $SelectionRect
 @onready var player_camera :Camera3D = $Camera/Yaw/Pitch/MainCamera
+@onready var deploy_unit_button = $DeployUnitButton
 @onready var add_unit_button = $Button # DEBUG
 @onready var spin_box = $SpinBox # DEBUG
 const UNIT = preload("res://scenes/unit.tscn")
 
 # Modules
 const camera_operations:GDScript = preload("res://resources/scripts/camera_operations.gd")
+
+# State Machine
+enum ClickState {
+	DEFAULT,
+	SELECTING,
+	SELECTED,
+	DEPLOYING,
+}
+var state :ClickState
 
 # Variables
 var selected_units :Dictionary = {}
@@ -28,6 +38,7 @@ const MIN_SELECT_SQUARED :float = 81
 func _ready():
 	# Initialise the interface for the start of the game
 	initialise_interface()
+	initialise_state_machine()
 
 
 func initialise_interface() -> void:
@@ -35,23 +46,48 @@ func initialise_interface() -> void:
 	ui_selection_patch.visible = false
 
 
+func initialise_state_machine():
+	# Initialises the state machine for the user interface
+	state = ClickState.DEFAULT
+
+
 func _input(_event:InputEvent) -> void:
-	# Runs once at the start of each selection rect
-	if Input.is_action_just_pressed("mouse_left_click"):
+	# Runs once at the start of each selection rect, if the state is DEFAULT
+	if Input.is_action_just_pressed("mouse_left_click") and state == ClickState.DEFAULT:
+		# Update state machine
+		state = ClickState.SELECTING
 		# Updates the dragged rect start position
 		_dragged_rect_left.position = get_global_mouse_position()
 		ui_selection_patch.position = _dragged_rect_left.position
 		_mouse_left_click = true
-	
+		
 	# Runs once at the end of each selection rect
-	if Input.is_action_just_released("mouse_left_click"):
+	if Input.is_action_just_released("mouse_left_click") and state == ClickState.SELECTING:
 		# Hides the UI selection patch
 		_mouse_left_click = false
 		ui_selection_patch.visible = false
 		# Casts the selection and adds any units into the selection
 		cast_selection()
+		# Update state machine
+		state = ClickState.SELECTED
 	
-	if Input.is_action_just_pressed("mouse_right_click"):
+	if Input.is_action_just_pressed("mouse_left_click") and state == ClickState.SELECTED:
+		# TODO - need to improve the state machine, this one is causing problems with unit selection
+		# Update state machine
+		state = ClickState.DEFAULT
+		# Empty player's unit selection
+		selected_units.clear()
+	
+	if Input.is_action_just_pressed("mouse_left_click") and state == ClickState.DEPLOYING:
+		# get click position
+		var mouse_position :Vector2 = get_viewport().get_mouse_position()
+		var camera :Camera3D = get_viewport().get_camera_3d()
+		var target:Vector3 = camera_operations.global_position_from_raycast(camera, mouse_position)
+		target_spawn_unit(target)
+		# update state machine
+		state = ClickState.DEFAULT
+	
+	if Input.is_action_just_pressed("mouse_right_click") and state == ClickState.SELECTED:
 		_mouse_right_click = true
 		if not selected_units.is_empty():
 			var mouse_position :Vector2 = get_viewport().get_mouse_position()
@@ -64,7 +100,7 @@ func _input(_event:InputEvent) -> void:
 					selected_units[key].update_target_location(camera_raycast_coords)
 			print(camera_raycast_coords)
 	
-	if Input.is_action_just_released("mouse_right_click"):
+	if Input.is_action_just_released("mouse_right_click") and state == ClickState.SELECTED:
 		# TODO move units to interpolated positions in between two clicks if they are far enough appart
 		_mouse_right_click = false
 		var mouse_position :Vector2 = get_viewport().get_mouse_position()
@@ -72,6 +108,9 @@ func _input(_event:InputEvent) -> void:
 		
 		var camera_raycast_coords :Vector3 = camera_operations.global_position_from_raycast(camera, mouse_position)
 	
+	if Input.is_action_just_pressed("mouse_right_click") and state == ClickState.DEPLOYING:
+		# update state
+		state = ClickState.DEFAULT
 
 
 func cast_selection() -> void:
@@ -120,13 +159,20 @@ func update_ui_selection_rect() -> void:
 		ui_selection_patch.scale.y = 1
 
 
+func target_spawn_unit(target:Vector3) -> void:
+	print("Called spawn unit.")
+	var unit = UnitSpawn.new(UNIT, target)
+	spawn_unit.emit(unit)
+
+
+func _on_deploy_unit_button_pressed():
+	# update state
+	state = ClickState.DEPLOYING
+
+
 # DEBUG - TODO Remove
 func debug_spawn_unit() -> void:
-	print("Called spawn unit.")
-	var unit = UnitSpawn.new(UNIT, Vector3(-5.932, 3.282, -15.371))
-	spawn_unit.emit(unit)
-	
-	#for i in spin_box.value:
-		#var unit:CharacterBody3D = UNIT.instantiate()
-		#unit.transform.origin = Vector3(-5.932, 3.282, -15.371 + i)
-		#get_parent().add_child(unit)
+	for i in spin_box.value:
+		var unit:CharacterBody3D = UNIT.instantiate()
+		unit.transform.origin = Vector3(-5.932, 3.282, -15.371 + i)
+		get_parent().add_child(unit)
