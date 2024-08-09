@@ -21,9 +21,11 @@ enum ClickState {
 	DEPLOYING,
 }
 var state :ClickState
+var is_on_ui: bool = false
 
 # Variables
 var selected_units :Dictionary = {}
+var num_deployments :int = 0
 
 # Internal Variables
 var _mouse_left_click :bool = false
@@ -53,7 +55,7 @@ func initialise_state_machine():
 
 func _input(_event:InputEvent) -> void:
 	# Runs once at the start of each selection rect, if the state is DEFAULT
-	if Input.is_action_just_pressed("mouse_left_click") and state == ClickState.DEFAULT:
+	if Input.is_action_just_pressed("mouse_left_click") and (state == ClickState.DEFAULT or state == ClickState.SELECTED) and is_on_ui == false:
 		# Update state machine
 		state = ClickState.SELECTING
 		# Updates the dragged rect start position
@@ -71,14 +73,17 @@ func _input(_event:InputEvent) -> void:
 		# Update state machine
 		state = ClickState.SELECTED
 	
-	if Input.is_action_just_pressed("mouse_left_click") and state == ClickState.SELECTED:
+	if Input.is_action_just_pressed("mouse_left_click") and state == ClickState.SELECTED and is_on_ui == false:
 		# TODO - need to improve the state machine, this one is causing problems with unit selection
 		# Update state machine
 		state = ClickState.DEFAULT
 		# Empty player's unit selection
 		selected_units.clear()
+		for unit in get_tree().get_nodes_in_group("units"):
+			unit.deselect()
 	
-	if Input.is_action_just_pressed("mouse_left_click") and state == ClickState.DEPLOYING:
+	if Input.is_action_just_pressed("mouse_left_click") and state == ClickState.DEPLOYING and is_on_ui == false:
+		# ERROR - deploys unit when clicking the add unit button
 		# get click position
 		var mouse_position :Vector2 = get_viewport().get_mouse_position()
 		var camera :Camera3D = get_viewport().get_camera_3d()
@@ -87,7 +92,7 @@ func _input(_event:InputEvent) -> void:
 		# update state machine
 		state = ClickState.DEFAULT
 	
-	if Input.is_action_just_pressed("mouse_right_click") and state == ClickState.SELECTED:
+	if Input.is_action_just_pressed("mouse_right_click") and state == ClickState.SELECTED and is_on_ui == false:
 		_mouse_right_click = true
 		if not selected_units.is_empty():
 			var mouse_position :Vector2 = get_viewport().get_mouse_position()
@@ -111,6 +116,7 @@ func _input(_event:InputEvent) -> void:
 	if Input.is_action_just_pressed("mouse_right_click") and state == ClickState.DEPLOYING:
 		# update state
 		state = ClickState.DEFAULT
+		num_deployments = 0
 
 
 func cast_selection() -> void:
@@ -160,14 +166,17 @@ func update_ui_selection_rect() -> void:
 
 
 func target_spawn_unit(target:Vector3) -> void:
-	print("Called spawn unit.")
-	var unit = UnitSpawn.new(UNIT, target)
-	spawn_unit.emit(unit)
+	for i in range(num_deployments):
+		print("Called spawn unit.")
+		var unit = UnitSpawn.new(UNIT, target)
+		spawn_unit.emit(unit)
+	num_deployments = 0
 
 
 func _on_deploy_unit_button_pressed():
 	# update state
 	state = ClickState.DEPLOYING
+	num_deployments += 1
 
 
 # DEBUG - TODO Remove
@@ -176,3 +185,12 @@ func debug_spawn_unit() -> void:
 		var unit:CharacterBody3D = UNIT.instantiate()
 		unit.transform.origin = Vector3(-5.932, 3.282, -15.371 + i)
 		get_parent().add_child(unit)
+
+# tracks when mouse enters a UI element
+func _on_mouse_entered():
+	is_on_ui = true
+	print(is_on_ui)
+# tracks when mouse leaves a UI element
+func _on_mouse_exited():
+	is_on_ui = false
+	print(is_on_ui)

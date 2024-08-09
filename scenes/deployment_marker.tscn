@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://biajf8vr8hula"]
+
+[ext_resource type="Script" path="res://scenes/deployment_marker.gd" id="1_ukfgl"]
+
+[node name="DeploymentMarker" type="Node3D"]
+script = ExtResource("1_ukfgl")
