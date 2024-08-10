@@ -8,7 +8,7 @@ signal spawn_unit(unit:UnitSpawn)
 @onready var deploy_unit_button = $DeployUnitButton
 @onready var add_unit_button = $Button # DEBUG
 @onready var spin_box = $SpinBox # DEBUG
-const UNIT = preload("res://scenes/unit.tscn")
+const UNIT = preload("res://scenes/units/unit.tscn")
 
 # Modules
 const camera_operations:GDScript = preload("res://resources/scripts/camera_operations.gd")
@@ -35,6 +35,9 @@ var _dragged_pos_right :Array[Vector3]
 
 # Constants
 const MIN_SELECT_SQUARED :float = 81
+
+# Team
+var player_team: int = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -124,12 +127,14 @@ func cast_selection() -> void:
 	# TODO Add modifier keys that either clear the selection or add to selection, etc...
 	selected_units.clear()
 	for unit in get_tree().get_nodes_in_group("units"):
-		# Checks if each unit is contained within the dragged circle selection and selects them if so
-		if _dragged_rect_left.abs().has_point(player_camera.project_to_screen(unit.transform.origin)):
-			selected_units[unit.get_instance_id()] = unit
-			unit.select()
-		else:
-			unit.deselect()
+		# checks if the unit is controlled by the player
+		if unit.team == player_team:
+			# Checks if each unit is contained within the dragged circle selection and selects them if so
+			if _dragged_rect_left.abs().has_point(player_camera.project_to_screen(unit.transform.origin)):
+				selected_units[unit.get_instance_id()] = unit
+				unit.select()
+			else:
+				unit.deselect()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -168,7 +173,7 @@ func update_ui_selection_rect() -> void:
 func target_spawn_unit(target:Vector3) -> void:
 	for i in range(num_deployments):
 		print("Called spawn unit.")
-		var unit = UnitSpawn.new(UNIT, target)
+		var unit = UnitSpawn.new(UNIT, target, player_team)
 		spawn_unit.emit(unit)
 	num_deployments = 0
 

@@ -7,6 +7,12 @@ extends Node3D
 @onready var ground_deployment_marker_container: Node = $map_test/Deployement/Ground
 var ground_deployment_markers: Array[DeploymentMarker]
 
+var teams = {
+	"neutral":[0],
+	"team_1":[1],
+	"team_2":[2]
+}
+
 
 func _ready():
 	await(get_tree().process_frame)

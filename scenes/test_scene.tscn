@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/test_scene.gd" id="1_1gb8w"]
 [ext_resource type="ArrayMesh" uid="uid://dvmk3n1dhyvc3" path="res://assets/maps/map_mesh.res" id="1_31mtw"]
 [ext_resource type="PackedScene" uid="uid://codd0sfjcvg05" path="res://scenes/player_interface.tscn" id="2_px5dk"]
-[ext_resource type="PackedScene" uid="uid://7o2esk1xvufk" path="res://scenes/unit.tscn" id="3_i6lx5"]
+[ext_resource type="PackedScene" uid="uid://7o2esk1xvufk" path="res://scenes/units/unit.tscn" id="3_i6lx5"]
 [ext_resource type="PackedScene" uid="uid://bp6d3ub6vq0pa" path="res://assets/maps/map_test.blend" id="5_yqh1l"]
 [ext_resource type="Script" path="res://scenes/deployment_marker.gd" id="6_2p5u5"]
 

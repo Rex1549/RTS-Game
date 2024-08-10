@@ -21,6 +21,7 @@ mouse_filter = 1
 text = "Add Unit"
 
 [node name="DeployUnitButton" type="Button" parent="."]
+layout_mode = 0
 offset_left = 98.0
 offset_right = 174.0
 offset_bottom = 31.0
