@@ -2,11 +2,11 @@ extends Unit
 
 class_name TrackedVehicle
 
-@export var ROTATION_SPEED: float = 0.5 # speed in radians/sec
+#@export var ROTATION_SPEED: float = 0.5 # speed in radians/sec
 
 func set_values() -> void:
-	SPEED = 50.0
-	ROTATION_SPEED = 1.
+	SPEED = 10.0
+	ROTATION_SPEED = .05
 	ACCELERATION = 0.2
 
 # this function decides how the unit moves towards it's next navigation point
@@ -33,7 +33,7 @@ func get_unit_velocity(delta) -> void:
 	# check if facing is correct
 	if to_angle > -0.5 or to_angle < 0.5:
 		# allow movement
-		var new_velocity = current_direction * SPEED * delta * SPEED_MULT
+		var new_velocity = current_direction * SPEED
 		new_velocity.y = next_direction.y
 		velocity = velocity.move_toward(new_velocity, ACCELERATION)
 	move_and_slide()

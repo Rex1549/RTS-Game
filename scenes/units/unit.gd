@@ -85,13 +85,8 @@ func update_target_location(target_location:Vector3):
 func set_values() -> void:
 	SPEED = 10
 	ROTATION_SPEED = 0.05
-	TEAM = 1
-
-
-# Sets the visibility of the selection sprite of the unit to true
-	SPEED = 50.
 	ACCELERATION = 0.5
-	team = 1
+	TEAM = 1
 
 func select() -> void:
 	selection_sprite.visible = true

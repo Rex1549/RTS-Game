@@ -26,7 +26,7 @@ func queue_unit(unit_to_spawn:UnitSpawn) -> void:
 func deploy_unit(unit_to_spawn:UnitSpawn) -> void:
 	# spawns a unit with a path to the desired position
 	var unit:CharacterBody3D = unit_to_spawn.unit.instantiate()
-	unit.team = unit_to_spawn.unit_team
+	unit.TEAM = unit_to_spawn.unit_team
 	unit.transform.origin = get_position()
 	get_parent().add_child(unit)
 	if "update_target_location" in unit:
