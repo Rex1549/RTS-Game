@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://hxm1e4y5gaur"]
+
+[ext_resource type="Script" path="res://scenes/multi_navmesh_test.gd" id="1_ia4fw"]
+[ext_resource type="PackedScene" uid="uid://codd0sfjcvg05" path="res://scenes/player_interface.tscn" id="1_rvsyh"]
+[ext_resource type="PackedScene" uid="uid://c1erkf3henu1x" path="res://assets/maps/multi_nav_test.blend" id="2_vesew"]
+[ext_resource type="PackedScene" uid="uid://biajf8vr8hula" path="res://scenes/deployment_marker.tscn" id="3_3u4w3"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jvp0m"]
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nmv8u"]
+size = Vector3(20, 2, 20)
+
+[node name="MultiNavmeshTest" type="Node3D"]
+script = ExtResource("1_ia4fw")
+
+[node name="PlayerInterface" parent="." instance=ExtResource("1_rvsyh")]
+
+[node name="multi_nav_test" parent="." instance=ExtResource("2_vesew")]
+
+[node name="forest" parent="multi_nav_test" index="2"]
+travel_cost = 2.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="multi_nav_test"]
+collision_layer = 2
+collision_mask = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="multi_nav_test/StaticBody3D"]
+mesh = SubResource("PlaneMesh_jvp0m")
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="multi_nav_test/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_nmv8u")
+
+[node name="DeploymentMarker" parent="." instance=ExtResource("3_3u4w3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.188702, -9.53674e-07, -9.39308)
+
+[connection signal="spawn_unit" from="PlayerInterface" to="." method="_on_player_interface_spawn_unit"]
+
+[editable path="multi_nav_test"]
