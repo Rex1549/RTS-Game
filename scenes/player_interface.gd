@@ -128,7 +128,7 @@ func cast_selection() -> void:
 	selected_units.clear()
 	for unit in get_tree().get_nodes_in_group("units"):
 		# checks if the unit is controlled by the player
-		if unit.team == player_team:
+		if unit.TEAM == player_team:
 			# Checks if each unit is contained within the dragged circle selection and selects them if so
 			if _dragged_rect_left.abs().has_point(player_camera.project_to_screen(unit.transform.origin)):
 				selected_units[unit.get_instance_id()] = unit

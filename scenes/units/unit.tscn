@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://7o2esk1xvufk"]
+[gd_scene load_steps=8 format=3 uid="uid://7o2esk1xvufk"]
 
 [ext_resource type="Script" path="res://scenes/units/unit.gd" id="1_xjbar"]
 [ext_resource type="Texture2D" uid="uid://b3ktbcvwruiwm" path="res://assets/ui/selection_circle.png" id="2_rige3"]
@@ -9,6 +9,12 @@ albedo_color = Color(0, 0.772549, 0, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_yoj4v"]
 material = SubResource("StandardMaterial3D_nxw5p")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6sia8"]
+albedo_color = Color(0, 0.772549, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_36k3v"]
+material = SubResource("StandardMaterial3D_6sia8")
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yd01l"]
 
 [node name="Unit" type="CharacterBody3D" groups=["units"]]
@@ -18,6 +24,10 @@ SPEED = 50.0
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_yoj4v")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 0.1, 0, -1, -4.37114e-09, 0, 0.05, -1)
+mesh = SubResource("PrismMesh_36k3v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
