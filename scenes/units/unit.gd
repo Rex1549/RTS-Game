@@ -8,6 +8,7 @@ class_name Unit
 
 # Constants
 @export var SPEED :float
+@export var ACCELERATION :float
 @export var ROTATION_SPEED :float
 @export var TEAM: int
 
@@ -88,6 +89,10 @@ func set_values() -> void:
 
 
 # Sets the visibility of the selection sprite of the unit to true
+	SPEED = 50.
+	ACCELERATION = 0.5
+	team = 1
+
 func select() -> void:
 	selection_sprite.visible = true
 

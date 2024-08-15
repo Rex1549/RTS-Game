@@ -8,7 +8,7 @@ signal spawn_unit(unit:UnitSpawn)
 @onready var deploy_unit_button = $DeployUnitButton
 @onready var add_unit_button = $Button # DEBUG
 @onready var spin_box = $SpinBox # DEBUG
-const UNIT = preload("res://scenes/units/unit.tscn")
+const UNIT = preload("res://scenes/units/tracked_vehicle.tscn")
 
 # Modules
 const camera_operations:GDScript = preload("res://resources/scripts/camera_operations.gd")
@@ -183,14 +183,6 @@ func _on_deploy_unit_button_pressed():
 	state = ClickState.DEPLOYING
 	num_deployments += 1
 
-
-# DEBUG - TODO Remove
-func debug_spawn_unit() -> void:
-	for i in spin_box.value:
-		var unit:CharacterBody3D = UNIT.instantiate()
-		unit.transform.origin = Vector3(-5.932, 3.282, -15.371 + i)
-		get_parent().add_child(unit)
-
 # tracks when mouse enters a UI element
 func _on_mouse_entered():
 	is_on_ui = true
@@ -199,3 +191,14 @@ func _on_mouse_entered():
 func _on_mouse_exited():
 	is_on_ui = false
 	print(is_on_ui)
+
+
+# DEBUG - TODO Remove
+func debug_spawn_unit() -> void:
+	for i in spin_box.value:
+		var unit:CharacterBody3D = UNIT.instantiate()
+		unit.transform.origin = Vector3(-5.932, 3.282, -15.371 + i)
+		get_parent().add_child(unit)
+
+
+

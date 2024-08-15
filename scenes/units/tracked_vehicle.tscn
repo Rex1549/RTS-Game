@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bsyu7ux6r20kt"]
+
+[ext_resource type="PackedScene" uid="uid://7o2esk1xvufk" path="res://scenes/units/unit.tscn" id="1_p3gi7"]
+[ext_resource type="Script" path="res://scenes/units/tracked_vehicle.gd" id="2_02c8c"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ugjou"]
+
+[node name="TrackedVehicle" instance=ExtResource("1_p3gi7")]
+script = ExtResource("2_02c8c")
+ROTATION_SPEED = 0.5
+SPEED = 5.0
+
+[node name="MeshInstance3D" parent="." index="0"]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_ugjou")
