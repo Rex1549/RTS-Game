@@ -8,7 +8,7 @@ signal spawn_unit(unit:UnitSpawn)
 @onready var deploy_unit_button = $DeployUnitButton
 @onready var add_unit_button = $Button # DEBUG
 @onready var spin_box = $SpinBox # DEBUG
-const UNIT = preload("res://scenes/units/tracked_vehicle.tscn")
+const UNIT = preload("res://scenes/units/unit_2.tscn")
 
 # Modules
 const camera_operations:GDScript = preload("res://resources/scripts/camera_operations.gd")
@@ -110,6 +110,7 @@ func _input(_event:InputEvent) -> void:
 	
 	if Input.is_action_just_released("mouse_right_click") and state == ClickState.SELECTED:
 		# TODO move units to interpolated positions in between two clicks if they are far enough appart
+		# TODO rotate units to the facing perpendicular to the line between the pressed mouse position and released
 		_mouse_right_click = false
 		var mouse_position :Vector2 = get_viewport().get_mouse_position()
 		var camera :Camera3D = get_viewport().get_camera_3d()

@@ -19,7 +19,7 @@ script = ExtResource("1_ia4fw")
 [node name="multi_nav_test" parent="." instance=ExtResource("2_vesew")]
 
 [node name="road" parent="multi_nav_test" index="1"]
-travel_cost = 0.1
+travel_cost = 0.2
 
 [node name="StaticBody3D" type="StaticBody3D" parent="multi_nav_test"]
 collision_layer = 2

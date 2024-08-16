@@ -49,7 +49,7 @@ func calculate_unit_transform() -> void:
 	facing = commanded_direction
 	
 	# saves the current rotation quaternion then looks at the target and sets the target quaternion
-	var target_rotation = Quaternion(Basis.looking_at(next_location - transform.origin)).normalized()
+	var target_rotation = Quaternion(Basis.looking_at(facing)).normalized()
 	
 	# Rotates the object by spherical interpolation towards the facing the unit is targeting
 	self.quaternion = rotate_towards(self.quaternion, target_rotation, ROTATION_SPEED)

@@ -9,11 +9,11 @@ albedo_color = Color(0, 0.772549, 0, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_yoj4v"]
 material = SubResource("StandardMaterial3D_nxw5p")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6sia8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8d6a4"]
 albedo_color = Color(0, 0.772549, 0, 1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_36k3v"]
-material = SubResource("StandardMaterial3D_6sia8")
+material = SubResource("StandardMaterial3D_8d6a4")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yd01l"]
 
