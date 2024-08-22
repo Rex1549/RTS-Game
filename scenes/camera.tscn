@@ -9,7 +9,9 @@
 [node name="Pitch" type="Node3D" parent="Yaw"]
 
 [node name="MainCamera" type="Camera3D" parent="Yaw/Pitch"]
+near = 1.0
+far = 50000.0
 script = ExtResource("1_56qkh")
 PAN_SPEED = 2.0
 ROT_SPEED = 10.0
-ZOOM_SPEED = 10.0
+ZOOM_SPEED = 300.0

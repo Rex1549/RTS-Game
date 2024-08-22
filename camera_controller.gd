@@ -5,10 +5,14 @@ extends Camera3D
 @onready var yaw = $"../.."
 @onready var pitch = $".."
 
-# Constants
+# Camera Parameters
 @export var PAN_SPEED :float
 @export var ROT_SPEED :float
 @export var ZOOM_SPEED :float
+
+# Constants
+const MAX_HEIGHT :float = 10000
+const MIN_HEIGHT :float = 300
 
 # Internal Variables
 var goal_transform :Vector3 = Vector3.ZERO
@@ -33,11 +37,11 @@ func _process(delta):
 	
 	# Zoom the camera in and out
 	if Input.is_action_just_pressed("zoom_out"):
-		if not goal_transform.y >= 100:
+		if not goal_transform.y >= MAX_HEIGHT:
 			goal_transform += Vector3(0, ZOOM_SPEED, 0).rotated(Vector3.LEFT, pitch.global_rotation.x)
 	
 	if Input.is_action_just_pressed("zoom_in"):
-		if not goal_transform.y <= 15:
+		if not goal_transform.y <= MIN_HEIGHT:
 			goal_transform -= Vector3(0, ZOOM_SPEED, 0).rotated(Vector3.LEFT, pitch.global_rotation.x)
 	
 	camera.global_transform.origin = camera.global_transform.origin.lerp(goal_transform, 0.1)

@@ -197,7 +197,7 @@ func _on_mouse_exited():
 # DEBUG - TODO Remove
 func debug_spawn_unit() -> void:
 	for i in spin_box.value:
-		var unit:CharacterBody3D = UNIT.instantiate()
+		var unit:Node3D = UNIT.instantiate()
 		unit.transform.origin = Vector3(-5.932, 3.282, -15.371 + i)
 		get_parent().add_child(unit)
 

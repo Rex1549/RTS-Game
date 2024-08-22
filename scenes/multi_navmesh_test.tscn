@@ -2,40 +2,37 @@
 
 [ext_resource type="Script" path="res://scenes/multi_navmesh_test.gd" id="1_ia4fw"]
 [ext_resource type="PackedScene" uid="uid://codd0sfjcvg05" path="res://scenes/player_interface.tscn" id="1_rvsyh"]
-[ext_resource type="PackedScene" uid="uid://c1erkf3henu1x" path="res://assets/maps/multi_nav_test.blend" id="2_vesew"]
 [ext_resource type="PackedScene" uid="uid://biajf8vr8hula" path="res://scenes/deployment_marker.tscn" id="3_3u4w3"]
+[ext_resource type="PackedScene" uid="uid://djdldc1ig3qs" path="res://assets/maps/map_files/test_map_1/test_map_1.blend" id="4_2hs7i"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_jvp0m"]
-size = Vector2(20, 20)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f5bjo"]
+albedo_color = Color(0.707967, 0.707967, 0.707967, 1)
+grow_amount = -0.065
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_nmv8u"]
-size = Vector3(20, 2, 20)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2scr"]
+albedo_color = Color(0.385558, 0.577629, 1, 1)
 
 [node name="MultiNavmeshTest" type="Node3D"]
 script = ExtResource("1_ia4fw")
 
 [node name="PlayerInterface" parent="." instance=ExtResource("1_rvsyh")]
 
-[node name="multi_nav_test" parent="." instance=ExtResource("2_vesew")]
-
-[node name="road" parent="multi_nav_test" index="1"]
-travel_cost = 0.2
-
-[node name="StaticBody3D" type="StaticBody3D" parent="multi_nav_test"]
-collision_layer = 2
-collision_mask = 3
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="multi_nav_test/StaticBody3D"]
-mesh = SubResource("PlaneMesh_jvp0m")
-skeleton = NodePath("../../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="multi_nav_test/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-shape = SubResource("BoxShape3D_nmv8u")
-
 [node name="DeploymentMarker" parent="." instance=ExtResource("3_3u4w3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.188702, -9.53674e-07, -9.39308)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6973.31, 144.453, -775.034)
+
+[node name="test_map_1" parent="." instance=ExtResource("4_2hs7i")]
+
+[node name="map_1_mesh" parent="test_map_1" index="0"]
+lod_bias = 128.0
+surface_material_override/0 = SubResource("StandardMaterial3D_f5bjo")
+
+[node name="map_1_rivers_mesh" parent="test_map_1" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_s2scr")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.8276, -0.26683, -0.493842, 0, -0.87979, 0.475363, -0.561318, -0.393411, -0.728114, 0, 422.377, 0)
+directional_shadow_max_distance = 10000.0
 
 [connection signal="spawn_unit" from="PlayerInterface" to="." method="_on_player_interface_spawn_unit"]
 
-[editable path="multi_nav_test"]
+[editable path="test_map_1"]

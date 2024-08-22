@@ -90,3 +90,9 @@ middle_mouse_button={
 3d_navigation/layer_19="Low Altitude (planes)"
 3d_navigation/layer_20="High Altitude (helicopters)"
 3d_navigation/layer_21="Low Altitude (helicopters)"
+
+[navigation]
+
+3d/default_cell_size=0.5
+3d/default_cell_height=0.15
+3d/default_link_connection_radius=2.0
