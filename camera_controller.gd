@@ -20,10 +20,10 @@ var goal_transform :Vector3 = Vector3.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	camera.global_position = Vector3(0, 30, 0)
+	self.goal_transform = Vector3(0, 30, 0)
 	pitch.global_rotation = Vector3(-PI/4, 0, 0)
 	
-	goal_transform = camera.global_transform.origin
+	camera.global_transform.origin = goal_transform
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,11 +38,17 @@ func _process(delta):
 	# Zoom the camera in and out
 	if Input.is_action_just_pressed("zoom_out"):
 		if not goal_transform.y >= MAX_HEIGHT:
+			# TODO - Switch constant zoom to relative speed zoom based on camera height (higher cameras have faster zoom than low down)
+			#goal_transform += Vector3(0, ZOOM_SPEED * (goal_transform.y + 1), 0).rotated(Vector3.LEFT, pitch.global_rotation.x)
 			goal_transform += Vector3(0, ZOOM_SPEED, 0).rotated(Vector3.LEFT, pitch.global_rotation.x)
 	
 	if Input.is_action_just_pressed("zoom_in"):
 		if not goal_transform.y <= MIN_HEIGHT:
+			# TODO - Switch constant zoom to relative speed zoom based on camera height (higher cameras have faster zoom than low down)
+			#goal_transform -= Vector3(0, ZOOM_SPEED * (goal_transform.y - 1), 0).rotated(Vector3.LEFT, pitch.global_rotation.x)
 			goal_transform -= Vector3(0, ZOOM_SPEED, 0).rotated(Vector3.LEFT, pitch.global_rotation.x)
+			#if goal_transform.y <= MIN_HEIGHT:
+			#	goal_transform += Vector3(0, MIN_HEIGHT - goal_transform.y, 0).rotated(Vector3.LEFT, pitch.global_rotation.x)
 	
 	camera.global_transform.origin = camera.global_transform.origin.lerp(goal_transform, 0.1)
 

@@ -13,7 +13,7 @@ void fragment() {
 	float fac = clamp(dot(NORMAL.rgb, vec3(0.0,1.0,0.0)) - 0.2, 0.0, 1.0);
 	
 	ALBEDO = fac * texture(sand_diff, UV).rgb + (1.0 - fac) * texture(cliff_diff, UV).rgb;
-	NORMAL = fac * texture(sand_norm, UV).rgb + (1.0 - fac) * texture(cliff_norm, UV).rgb;
+	NORMAL_MAP = fac * texture(sand_norm, UV).rgb + (1.0 - fac) * texture(cliff_norm, UV).rgb;
 	ROUGHNESS = fac * texture(sand_rough, UV).r + (1.0 - fac) * texture(cliff_rough, UV).r;
 }
 

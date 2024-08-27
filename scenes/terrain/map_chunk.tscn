@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0qgvinhrcjbr"]
+
+[ext_resource type="Script" path="res://scenes/terrain/dynamic_chunk_LOD.gd" id="1_y6fej"]
+[ext_resource type="Material" uid="uid://plrvq11534y" path="res://resources/materials/maps/map_chunk_material.tres" id="2_tplkk"]
+
+[node name="map_chunk" type="Node3D"]
+script = ExtResource("1_y6fej")
+material = ExtResource("2_tplkk")

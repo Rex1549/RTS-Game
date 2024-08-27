@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://plrvq11534y"]
+
+[ext_resource type="Shader" path="res://resources/shaders/maps/map_chunk_shader.gdshader" id="1_ujwx1"]
+[ext_resource type="Texture2D" uid="uid://bmkm2tulmb8bc" path="res://assets/maps/map_files/test_map_2/diffuse_test.jpg" id="2_35e2a"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ujwx1")
+shader_parameter/diff = ExtResource("2_35e2a")
