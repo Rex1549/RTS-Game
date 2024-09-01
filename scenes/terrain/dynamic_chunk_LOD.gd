@@ -12,15 +12,17 @@ var heightmap :PackedFloat32Array
 
 # Local variables
 var LOD_count :int = 5 # Number of LODs to generate
+var LOD_offset :int = 0 # Reduce the resolution of all terrain chunks (0-full, 1-half, 2-quarter, etc...)
 var location_in_map :Vector2 = Vector2.ZERO
 var terrain_size :Vector2 = Vector2(1, 1)
 
 
 
 # initialises the heightmap as a PackedFloat32Array and sends the data to the vertex shader
-func init(heightfield:PackedFloat32Array, lod_count:int = 5, location:Vector2 = Vector2.ZERO, size:Vector2 = Vector2(1, 1)) -> Node3D:
+func init(heightfield:PackedFloat32Array, lod_count:int = 5, lod_offset:int=0, location:Vector2 = Vector2.ZERO, size:Vector2 = Vector2(1, 1)) -> Node3D:
 	# initialise start variables
 	self.LOD_count = lod_count
+	self.LOD_offset = lod_offset
 	self.location_in_map = location
 	self.terrain_size = size
 	# Load the section of the heightmap for this chunk
@@ -34,7 +36,7 @@ func _ready() -> void:
 	# Create a mesh instance 3D and assign a mesh for each LOD
 	for lod in LOD_count:
 		var instance :MeshInstance3D = MeshInstance3D.new()
-		instance.mesh = generate_mesh(lod, heightmap)
+		instance.mesh = generate_mesh(lod+2, heightmap, 1000)
 		if lod == LOD_count - 1:
 			instance.visibility_range_begin = 500 * (2 ** lod) - 100
 			instance.visibility_range_begin_margin = 100
@@ -55,7 +57,7 @@ func _ready() -> void:
 
 
 # Returns the mesh of the passed LOD level (0 - full detail, 1- half detail, 2-quater, etc...)
-# The local transform represents the number of chunks in the x and y axis as the first 2 elements, then the position of this chunk in the elements
+# max mesh resolution should be set equal to the heightmap resolution (eg. 512x512 heightmap means 512 in mesh res)
 func generate_mesh(LOD:int, heightmap:PackedFloat32Array, height_scale:float = 1000, max_mesh_resolution:int = 512) -> Mesh:
 	# Uses the LOD to set the number of vertices in the NxN grid
 	var vertex_count :int = max_mesh_resolution / (2 ** LOD) + 1

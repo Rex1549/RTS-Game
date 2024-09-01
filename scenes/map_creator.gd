@@ -33,7 +33,7 @@ func initialise_map() -> void:
 	# Instanciate a mesh for each 1024x1024 chunk
 	for z in size[0]:
 		for x in size[1]:
-			var chunk :Node3D = MAP_CHUNK.instantiate().init(heightmaps[heightmap_index], 5, Vector2(x, z), size)
+			var chunk :Node3D = MAP_CHUNK.instantiate().init(heightmaps[heightmap_index], 5, 2, Vector2(x, z), size)
 			chunk.position = Vector3(x * 1024, 0, z * 1024) + offset
 			self.add_child(chunk)
 			heightmap_index += 1
